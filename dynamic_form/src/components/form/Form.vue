@@ -1,32 +1,53 @@
 <template>
   <div class="hello">
     <DropDown :options="getMainData" @select-option="selectOption" />
+
+    <div>
+      <div v-for="(field, index) in typeFields" :key="index">
+        {{field}}
+        <input type="text" v-if="field.type === 'text'"  />
+       
+        <textarea v-if="field.type === 'textarea'" placeholder="add multiple lines"></textarea>
+        <DropDown v-if="field.type === 'select'" :options="field.options" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import DropDown from "../partials/DropDown.vue";
-import data from "./data";
+import Form from "../services/form.js";
+import reviewTypes from "./data";
 export default {
   name: "Form",
+  data() {
+    return {
+      form: new Form({
+        id: "",
+      }),
+      typeFields: [],
+    };
+  },
   components: {
     DropDown,
   },
   computed: {
+    getData() {
+      return reviewTypes;
+    },
     getMainData() {
-      return data.map((el) => el.id);
+      return reviewTypes.map((el) => el.id);
     },
-   
   },
-  methods:{
-     selectOption(value) {
-      console.log(value);
+  methods: {
+    selectOption(value) {
+      console.log(this.getData.filter((el) => el.id === value));
+      this.typeFields = this.getData.filter((el) => el.id === value)[0].fields;
     },
-  }
+  },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;
