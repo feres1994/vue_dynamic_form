@@ -1,0 +1,23 @@
+.btn {
+    width: 150px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+   
+  }
+  .primary-btn {
+    color: #ffffff;
+    background-color: #2380e9;
+  }
+  .bold {
+    font-weight: bold;
+  }
+  .cursor-pointer {
+      cursor: pointer
+  }
+  .not-allowed {
+      cursor: not-allowed
+  }
+  .disabled {
+    opacity: .5 !important
+  }

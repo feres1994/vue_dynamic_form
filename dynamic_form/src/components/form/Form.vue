@@ -1,17 +1,40 @@
 <template>
   <div class="form-container">
-    <DropDown :options="getMainData" @select-option="selectOption" />
+    <button
+      class="btn primary-btn bold"
+      :disabled="disabled"
+      @click="submitForm"
+      :class="[disabled ? 'not-allowed disabled' : 'cursor-pointer']"
+    >
+      Submit
+    </button>
+    <DropDown
+      :options="getMainData"
+      @select-option="selectOption"
+      label="Review Types"
+    />
 
     <div>
       <div v-for="(field, index) in typeFields" :key="index">
+        <InputText
+          v-if="field.type === 'text'"
+          :label="field.title"
+          :is-required="field.required"
+        />
 
-        <input type="text" v-if="field.type === 'text'" />
-
-        <textarea
+        <TextArea
           v-if="field.type === 'textarea'"
           placeholder="add multiple lines"
-        ></textarea>
-        <DropDown v-if="field.type === 'select'" :options="field.options" />
+          :label="field.title"
+          :is-required="field.required"
+        />
+        <DropDown
+          v-if="field.type === 'select'"
+          :options="field.options"
+          :label="field.title"
+          @select-option="selectSubValues($event, field.title)"
+          :is-required="field.required"
+        />
       </div>
     </div>
   </div>
@@ -19,20 +42,24 @@
 
 <script>
 import DropDown from "../partials/DropDown.vue";
+import InputText from "../partials/InputText.vue";
+import TextArea from "../partials/TextArea.vue";
 import Form from "../services/form.js";
 import reviewTypes from "./data";
 export default {
   name: "Form",
   data() {
     return {
-      form: new Form({
-        id: "",
-      }),
+      form: new Form({}),
       typeFields: [],
+      selectedOption: {},
+      disabled: true,
     };
   },
   components: {
     DropDown,
+    InputText,
+    TextArea,
   },
   computed: {
     getData() {
@@ -42,28 +69,38 @@ export default {
       return reviewTypes.map((el) => el.id);
     },
   },
+
+  mounted() {
+    this.fillForm();
+  },
   methods: {
     selectOption(value) {
-      console.log(this.getData.filter((el) => el.id === value));
+      this.selectedOption = this.getData.filter((el) => el.id === value)[0];
       this.typeFields = this.getData.filter((el) => el.id === value)[0].fields;
+    
+    },
+    fillForm() {
+      this.form = {};
+      if (this.selectedOption !== {}) {
+        this.form.id = this.selectedOption?.id;
+        console.log(this.selectedOption.fields);
+        this.selectedOption.fields.forEach((element) => {
+          this.form[element.id] =
+            element.type === "select" ? element.options[0] : "";
+        });
+      }
+    },
+    submitForm() {
+      console.log("ghhihhihihi");
+    },
+    selectSubValues(value, y) {
+      console.log(value);
+      console.log(y);
     },
   },
 };
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+@import "../../assets/main.css";
 </style>

@@ -1,0 +1,94 @@
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 24px;
+}
+.input {
+  position: relative;
+  width: 50%;
+  text-align: left;
+  outline: none;
+  height: 47px;
+  line-height: 47px;
+
+}
+.text-area-input {
+    position: relative;
+    width: 50%;
+    text-align: left;
+    outline: none;
+    line-height: 47px;
+  }
+
+  .custom-select {
+    position: relative;
+    width: 50%;
+    text-align: left;
+    outline: none;
+    height: 47px;
+    line-height: 47px;
+  }
+  
+  .custom-select .selected {
+    background-color: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #666666;
+    color: #000000;
+    padding-left: 1em;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .custom-select .selected.open {
+    border: 1px solid  #2380e9;
+    border-radius: 6px 6px 0px 0px;
+  }
+  
+  .custom-select .selected:after {
+    position: absolute;
+    content: "";
+    top: 22px;
+    right: 1em;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-color: #000 transparent transparent transparent;
+  }
+  
+  .custom-select .items {
+    color: #000000;
+    border-radius: 0px 0px 6px 6px;
+    overflow: hidden;
+    border-right: 1px solid #2380e9;
+    border-left: 1px solid #2380e9;
+    border-bottom: 1px solid #2380e9;
+    position: absolute;
+    background-color: #ffffff;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+  
+  .custom-select .items div {
+    color: #000000;
+    padding-left: 1em;
+    cursor: pointer;
+    user-select: none;
+    transition: all .3s ease-in-out;
+  }
+  
+  .custom-select .items div:hover {
+    background-color: #2380e982;
+  }
+  
+  .selectHide {
+    display: none;
+  }
+ 
+  .bold {
+    font-weight: bold;
+  }
+  .is-required {
+      color: red;
+  }

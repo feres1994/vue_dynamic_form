@@ -1,15 +1,20 @@
 <template>
-  <div class="custom-select"   v-click-outside="hideMenu">
-    <div class="selected" :class="{ open: open }" @click="toggleMenu">
-      {{ selected }}
-    </div>
-    <div class="items" :class="{ selectHide: !open }">
-      <div
-        v-for="(option, i) of options"
-        :key="i"
-        @click="selectOption(option)"
-      >
-        {{ option }}
+  <div class="input-container">
+    <label :for="label" class="bold"
+      >{{ label }} <span v-if="isRequired" class="is-required">*</span></label
+    >
+    <div class="custom-select" v-click-outside="hideMenu">
+      <div class="selected" :class="{ open: open }" @click="toggleMenu">
+        {{ selected }}
+      </div>
+      <div class="items" :class="{ selectHide: !open }">
+        <div
+          v-for="(option, i) of options"
+          :key="i"
+          @click="selectOption(option)"
+        >
+          {{ option }}
+        </div>
       </div>
     </div>
   </div>
@@ -27,7 +32,15 @@ export default {
       required: false,
       default: null,
     },
-   
+    label: {
+      type: String,
+      required: true,
+    },
+    isRequired: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -42,88 +55,22 @@ export default {
   mounted() {
     this.$emit("select-option", this.selected);
   },
-  methods:{
-      selectOption(option){
-          
-          this.selected = option;
-          this.open = false;
-          this.$emit('select-option', option);
-        
-      },
-      toggleMenu(){
-          this.open = !this.open
-      },
-      hideMenu(){
-          console.log("hiiii");
-          this.open = false
-      }
-
-  }
+  methods: {
+    selectOption(option) {
+      this.selected = option;
+      this.open = false;
+      this.$emit("select-option", option);
+    },
+    toggleMenu() {
+      this.open = !this.open;
+    },
+    hideMenu() {
+      this.open = false;
+    },
+  },
 };
 </script>
 
 <style scoped>
-.custom-select {
-  position: relative;
-  width: 50%;
-  text-align: left;
-  outline: none;
-  height: 47px;
-  line-height: 47px;
-}
-
-.custom-select .selected {
-  background-color: #ffffff;
-  border-radius: 6px;
-  border: 1px solid #666666;
-  color: #000000;
-  padding-left: 1em;
-  cursor: pointer;
-  user-select: none;
-}
-
-.custom-select .selected.open {
-  border: 1px solid #ad8225;
-  border-radius: 6px 6px 0px 0px;
-}
-
-.custom-select .selected:after {
-  position: absolute;
-  content: "";
-  top: 22px;
-  right: 1em;
-  width: 0;
-  height: 0;
-  border: 5px solid transparent;
-  border-color: #000 transparent transparent transparent;
-}
-
-.custom-select .items {
-  color: #000000;
-  border-radius: 0px 0px 6px 6px;
-  overflow: hidden;
-  border-right: 1px solid #ad8225;
-  border-left: 1px solid #ad8225;
-  border-bottom: 1px solid #ad8225;
-  position: absolute;
-  background-color: #ffffff;
-  left: 0;
-  right: 0;
-  z-index: 1;
-}
-
-.custom-select .items div {
-  color: #000000;
-  padding-left: 1em;
-  cursor: pointer;
-  user-select: none;
-}
-
-.custom-select .items div:hover {
-  background-color: #ad8225;
-}
-
-.selectHide {
-  display: none;
-}
+@import "inputs.css";
 </style>
