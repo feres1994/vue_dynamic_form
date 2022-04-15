@@ -32,7 +32,7 @@
           v-if="field.type === 'select'"
           :options="field.options"
           :label="field.title"
-          @select-option="selectSubValues($event, field.title)"
+          @select-option="selectSubValues($event, field.id)"
           :is-required="field.required"
         />
       </div>
@@ -84,7 +84,6 @@ export default {
       this.form = {};
       if (this.selectedOption !== {}) {
         this.form.id = this.selectedOption?.id;
-        console.log(this.selectedOption.fields);
         this.selectedOption.fields.forEach((element) => {
           this.form[element.id] =
             element.type === "select" ? element.options[0] : "";
@@ -92,11 +91,10 @@ export default {
       }
     },
     submitForm() {
-      console.log("ghhihhihihi");
+      console.log(this.form);
     },
-    selectSubValues(value, y) {
-      console.log(value);
-      console.log(y);
+    selectSubValues(value, property) {
+   this.form[property] = value
     },
   },
 };
