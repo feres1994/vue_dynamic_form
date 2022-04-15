@@ -53,7 +53,7 @@ export default {
       form: new Form({}),
       typeFields: [],
       selectedOption: {},
-      disabled: true,
+      disabled: false,
     };
   },
   components: {
@@ -77,7 +77,8 @@ export default {
     selectOption(value) {
       this.selectedOption = this.getData.filter((el) => el.id === value)[0];
       this.typeFields = this.getData.filter((el) => el.id === value)[0].fields;
-    
+
+      this.fillForm();
     },
     fillForm() {
       this.form = {};
