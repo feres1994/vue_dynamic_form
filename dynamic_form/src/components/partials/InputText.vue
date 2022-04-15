@@ -3,7 +3,13 @@
     <label :for="label" class="bold"
       >{{ label }} <span v-if="isRequired" class="is-required">*</span></label
     >
-    <input type="text" class="input" v-model="value" @blur="displayValidationError" @click="setFocus" />
+    <input
+      type="text"
+      class="input"
+      v-model="value"
+      @blur="displayValidationError"
+      @click="setFocus"
+    />
     <p class="is-required">{{ error }}</p>
   </div>
 </template>
@@ -27,7 +33,14 @@ export default {
       error: "",
     };
   },
-
+  mounted() {
+    this.$emit("set-input-value", this.value);
+  },
+  watch: {
+    value() {
+      this.$emit("set-input-value", this.value);
+    },
+  },
   methods: {
     displayValidationError() {
       if (this.isRequired && this.value === "") {
@@ -36,10 +49,9 @@ export default {
         this.error = "";
       }
     },
-    setFocus(){
-        this.error = ""
-    }
-   
+    setFocus() {
+      this.error = "";
+    },
   },
 };
 </script>

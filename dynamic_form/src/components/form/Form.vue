@@ -20,13 +20,15 @@
           v-if="field.type === 'text'"
           :label="field.title"
           :is-required="field.required"
+          @set-input-value="updateSelected($event, field.id)"
         />
 
         <TextArea
           v-if="field.type === 'textarea'"
-          placeholder="add multiple lines"
+      
           :label="field.title"
           :is-required="field.required"
+          @set-input-value="updateSelected($event, field.id)"
         />
         <DropDown
           v-if="field.type === 'select'"
@@ -44,13 +46,12 @@
 import DropDown from "../partials/DropDown.vue";
 import InputText from "../partials/InputText.vue";
 import TextArea from "../partials/TextArea.vue";
-import Form from "../services/form.js";
 import reviewTypes from "./data";
 export default {
   name: "Form",
   data() {
     return {
-      form: new Form({}),
+      form: {},
       typeFields: [],
       selectedOption: {},
       disabled: false,
@@ -94,7 +95,19 @@ export default {
       console.log(this.form);
     },
     selectSubValues(value, property) {
-   this.form[property] = value
+      this.form[property] = value;
+    },
+    updateSelected(value, property) {
+      this.form[property] = value;
+      this.inputValidation(property, value);
+    },
+    inputValidation(inputName, inputValue) {
+      let inputField = this.typeFields.filter((el) => el.id === inputName);
+      if (inputField[0].required && inputValue === "") {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
     },
   },
 };

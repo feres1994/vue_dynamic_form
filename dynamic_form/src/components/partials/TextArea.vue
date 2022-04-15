@@ -3,9 +3,11 @@
     <label :for="label" class="bold"
       >{{ label }}<span v-if="isRequired" class="is-required">*</span>
     </label>
-    <textarea class="text-area-input"
-     v-model="value"
-      @blur="checkRequiredInput"
+    <textarea
+      class="text-area-input"
+      v-model="value"
+      @blur="displayValidationError"
+      @click="setFocus"
     ></textarea>
   </div>
 </template>
@@ -17,33 +19,37 @@ export default {
       type: String,
       required: true,
     },
-     isRequired: {
+    isRequired: {
       type: Boolean,
       required: false,
       default: false,
     },
   },
-    data() {
+  data() {
     return {
       value: "",
       error: "",
     };
   },
   mounted() {
-    this.checkRequiredInput();
+    this.$emit("set-input-value", this.value);
   },
+  watch: {
+    value() {
+      this.$emit("set-input-value", this.value);
+    },
+  },
+
   methods: {
-    checkRequiredInput() {
-      if (this.isRequired && this.value.length === "") {
-        this.$emit("input-empty-required", true);
-      }
-      else {
-          this.$emit("input-empty-required", false); 
+    displayValidationError() {
+      if (this.isRequired && this.value === "") {
+        this.error = "Required Input";
+      } else {
+        this.error = "";
       }
     },
-    displayValidationError() {
-      this.error = "Required Input";
-      this.checkRequiredInput();
+    setFocus() {
+      this.error = "";
     },
   },
 };
