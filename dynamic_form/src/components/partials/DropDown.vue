@@ -1,6 +1,6 @@
 <template>
-  <div class="custom-select"  @blur="open = false">
-    <div class="selected" :class="{ open: open }" @click="open = !open">
+  <div class="custom-select"   v-click-outside="hideMenu">
+    <div class="selected" :class="{ open: open }" @click="toggleMenu">
       {{ selected }}
     </div>
     <div class="items" :class="{ selectHide: !open }">
@@ -49,7 +49,15 @@ export default {
           this.open = false;
           this.$emit('select-option', option);
         
+      },
+      toggleMenu(){
+          this.open = !this.open
+      },
+      hideMenu(){
+          console.log("hiiii");
+          this.open = false
       }
+
   }
 };
 </script>
@@ -57,7 +65,7 @@ export default {
 <style scoped>
 .custom-select {
   position: relative;
-  width: 100%;
+  width: 50%;
   text-align: left;
   outline: none;
   height: 47px;
@@ -65,10 +73,10 @@ export default {
 }
 
 .custom-select .selected {
-  background-color: #0a0a0a;
+  background-color: #ffffff;
   border-radius: 6px;
   border: 1px solid #666666;
-  color: #fff;
+  color: #000000;
   padding-left: 1em;
   cursor: pointer;
   user-select: none;
@@ -87,25 +95,25 @@ export default {
   width: 0;
   height: 0;
   border: 5px solid transparent;
-  border-color: #fff transparent transparent transparent;
+  border-color: #000 transparent transparent transparent;
 }
 
 .custom-select .items {
-  color: #fff;
+  color: #000000;
   border-radius: 0px 0px 6px 6px;
   overflow: hidden;
   border-right: 1px solid #ad8225;
   border-left: 1px solid #ad8225;
   border-bottom: 1px solid #ad8225;
   position: absolute;
-  background-color: #0a0a0a;
+  background-color: #ffffff;
   left: 0;
   right: 0;
   z-index: 1;
 }
 
 .custom-select .items div {
-  color: #fff;
+  color: #000000;
   padding-left: 1em;
   cursor: pointer;
   user-select: none;

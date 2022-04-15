@@ -1,13 +1,16 @@
 <template>
-  <div class="hello">
+  <div class="form-container">
     <DropDown :options="getMainData" @select-option="selectOption" />
 
     <div>
       <div v-for="(field, index) in typeFields" :key="index">
-        {{field}}
-        <input type="text" v-if="field.type === 'text'"  />
-       
-        <textarea v-if="field.type === 'textarea'" placeholder="add multiple lines"></textarea>
+
+        <input type="text" v-if="field.type === 'text'" />
+
+        <textarea
+          v-if="field.type === 'textarea'"
+          placeholder="add multiple lines"
+        ></textarea>
         <DropDown v-if="field.type === 'select'" :options="field.options" />
       </div>
     </div>
